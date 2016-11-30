@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - apt:
+        name: sl
+        state: latest
+      
