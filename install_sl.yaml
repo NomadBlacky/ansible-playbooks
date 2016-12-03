@@ -1,7 +1,13 @@
 ---
 - hosts: localhost
   tasks:
-    - apt:
-        name: sl
-        state: latest
+    - name: Install 'sl' command for Debian
+      apt: name=sl state=latest
+      become: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Install 'sl' command for Redhat
+      yum: name=sl state=latest
+      become: yes
+      when: ansible_os_family == 'Redhat'
       
