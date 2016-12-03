@@ -9,5 +9,5 @@
     - name: Uninstall 'sl' command for Redhat
       yum: name=sl state=absent
       become: yes
-      when: ansible_os_family == 'Redhat'
+      when: ansible_os_family == 'RedHat'
       

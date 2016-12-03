@@ -9,5 +9,5 @@
     - name: Install 'sl' command for Redhat
       yum: name=sl state=latest
       become: yes
-      when: ansible_os_family == 'Redhat'
+      when: ansible_os_family == 'RedHat'
       
