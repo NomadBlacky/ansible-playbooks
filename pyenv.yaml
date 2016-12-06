@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+  
+  tasks:
+    - debug: var=HOME_DIR
+  
+    - name: Git clone 'pyenv'
+      git:
+        repo=https://github.com/yyuu/pyenv.git
+        dest={{HOME_DIR}}/.pyenv
+        version=master
+
+    - stat: path={{HOME_DIR}}/.bashrc
+      register: bashrc
+
+    - name: Add 'PYENV_ROOT' to .bashrc
+      lineinfile:
+        dest={{HOME_DIR}}/.bashrc
+        line='export PYENV_ROOT="$HOME/.pyenv"'
+        regexp=^export PYENV_ROOT=
+      when: bashrc.stat.exists
+
+    - name: Append 'PATH' to .bashrc
+      lineinfile:
+        dest={{HOME_DIR}}/.bashrc
+        line='export PATH=$PYENV_ROOT/bin:$PATH'
+        regexp=^export PATH=$PYENV_ROOT/bin
+      when: bashrc.stat.exists
+
+    - name: Add 'pyenv init' to .bashrc
+      lineinfile:
+        dest={{HOME_DIR}}/.bashrc
+        line='eval "$(pyenv init -)"'
+        #regexp=^eval \$\(pyenv init -\)
+      when: bashrc.stat.exists
+      
+        
