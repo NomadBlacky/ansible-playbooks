@@ -3,38 +3,64 @@
 
   vars:
     HOME_DIR: "{{lookup('env', 'HOME')}}"
+    BASHRC: "{{HOME_DIR}}/.bashrc"
+    CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
   
   tasks:
-    - debug: var=HOME_DIR
-  
     - name: Git clone 'pyenv'
       git:
         repo=https://github.com/yyuu/pyenv.git
         dest={{HOME_DIR}}/.pyenv
         version=master
 
-    - stat: path={{HOME_DIR}}/.bashrc
+    # for bash
+    - stat: path={{BASHRC}}
       register: bashrc
 
     - name: Add 'PYENV_ROOT' to .bashrc
       lineinfile:
-        dest={{HOME_DIR}}/.bashrc
+        dest={{BASHRC}}
         line='export PYENV_ROOT="$HOME/.pyenv"'
-        regexp=^export PYENV_ROOT=
+        regexp='^export PYENV_ROOT='
       when: bashrc.stat.exists
 
     - name: Append 'PATH' to .bashrc
       lineinfile:
-        dest={{HOME_DIR}}/.bashrc
+        dest={{BASHRC}}
         line='export PATH=$PYENV_ROOT/bin:$PATH'
-        regexp=^export PATH=$PYENV_ROOT/bin
+        regexp='^export PATH=\$PYENV_ROOT/bin'
       when: bashrc.stat.exists
 
     - name: Add 'pyenv init' to .bashrc
       lineinfile:
-        dest={{HOME_DIR}}/.bashrc
+        dest={{BASHRC}}
         line='eval "$(pyenv init -)"'
-        #regexp=^eval \$\(pyenv init -\)
+        regexp='^eval "\$\(pyenv init -\)"'
       when: bashrc.stat.exists
       
         
+    # for fish
+    - stat: path={{CONFIG_FISH}}
+      register: config_fish
+
+    - name: Add 'PYENV_ROOT' to config.fish
+      lineinfile:
+        dest={{CONFIG_FISH}}
+        line='set -x PYENV_ROOT $HOME/.pyenv'
+        regexp='^set -x PYENV_ROOT'
+      when: config_fish.stat.exists
+
+    - name: Append 'PATH' to config.fish
+      lineinfile:
+        dest={{CONFIG_FISH}}
+        line='set -x PATH $PYENV_ROOT/bin $PATH'
+        regexp='^set -x PATH \$PYENV_ROOT/bin'
+      when: config_fish.stat.exists
+
+    - name: Add 'pyenv init' to config.fish
+      lineinfile:
+        dest={{CONFIG_FISH}}
+        line='. (pyenv init - | psub)'
+        regexp='^\. \(pyenv init - \| psub\)'
+      when: config_fish.stat.exists
+    
