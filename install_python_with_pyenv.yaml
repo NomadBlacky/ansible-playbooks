@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+
+  vars:
+    VERSION: 3.5.2
+  
+  tasks:
+    - name: Install Python {{VERSION}}
+      command: pyenv install {{VERSION}}
+
+    - name: Setting global Python version
+      command: pyenv global {{VERSION}}
