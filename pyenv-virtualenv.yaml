@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+    BASHRC: "{{HOME_DIR}}/.bashrc"
+    CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
+  
+  tasks:
+    - name: Git clone 'pyenv-virtualenv'
+      git:
+        repo=https://github.com/yyuu/pyenv-virtualenv.git
+        dest={{HOME_DIR}}/.pyenv/plugins/pyenv-virtualenv
+        version=master
+
+    # for bash
+    - stat: path={{BASHRC}}
+      register: bashrc
+
+    - name: Add init virtualenv to .bashrc
+      lineinfile:
+        dest={{BASHRC}}
+        line='eval "$(pyenv virtualenv-init -)"'
+        regexp='^eval "\$\(pyenv virtualenv-init -\)"'
+      when: bashrc.stat.exists
+      
+        
+    # for fish
+    - stat: path={{CONFIG_FISH}}
+      register: config_fish
+
+    - name: Add init virtualenv to config.fish
+      lineinfile:
+        dest={{CONFIG_FISH}}
+        line='. (pyenv virtualenv-init - | psub)'
+        regexp='^\. \(pyenv virtualenv-init - \| psub\)'
+      when: config_fish.stat.exists
+    
