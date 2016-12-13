@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  
+  tasks:
+    - name: Install rbenv and ruby-build from apt
+      apt: name={{item}} state=latest
+      with_items:
+        - rbenv
+        - ruby-build
+      
