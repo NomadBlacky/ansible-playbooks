@@ -1,12 +1,29 @@
 ---
 - hosts: localhost
-
+  
   vars:
     HOME_DIR: "{{lookup('env', 'HOME')}}"
     BASHRC: "{{HOME_DIR}}/.bashrc"
     CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
   
   tasks:
+    - name: Install dependency packages
+      apt: name={{item}} state=latest
+      with_items:
+        - build-essential
+        - libncurses-dev
+        - autoconf
+        - automake
+        - autogen
+        - git
+        - texinfo
+        - libtool
+        - libgtk2.0-dev
+        - libxpm-dev
+        - libjpeg-dev
+        - libtiff-dev
+      become: yes
+  
     - command: 'which evm'
       register: which_evm
       ignore_errors: yes
@@ -16,7 +33,7 @@
       when: which_evm|failed
 
     - name: mkdir /usr/local/evm
-      file: path=/usr/local/evm state=directory
+      file: path=/usr/local/evm state=directory owner={{ansible_user}}
       become: yes
   
     # for bash
