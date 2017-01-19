@@ -1,0 +1,62 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+    BASHRC: "{{HOME_DIR}}/.bashrc"
+    CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
+  
+  tasks:
+    - name: Add apt repository
+      apt_repository: repo={{ item }}
+      become: yes
+      with_items:
+        - ppa:ubuntu-lxc/lxd-stable
+        - ppa:masterminds/glide
+
+    - name: Install golang and glide from apt
+      apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      become: yes
+      with_items:
+        - golang
+        - glide
+
+    # for bash
+    - stat: path={{BASHRC}}
+      register: bashrc
+
+    - name: Add 'GOPATH' to .bashrc
+      lineinfile:
+        dest={{BASHRC}}
+        line='export GOPATH=$HOME/.go'
+        regexp='^export GOPATH'
+      when: bashrc.stat.exists
+
+    - name: Append 'PATH' to .bashrc
+      lineinfile:
+        dest={{BASHRC}}
+        line='export PATH=$HOME/.go/bin:$PATH'
+        regexp='^export PATH=\$HOME/\.go/bin'
+      when: bashrc.stat.exists
+
+    # for fish
+    - stat: path={{CONFIG_FISH}}
+      register: config_fish
+
+    - name: Add 'GOPATH' to config.fish
+      lineinfile:
+        dest={{CONFIG_FISH}}
+        line='set -x GOPATH $HOME/.go'
+        regexp='^set -x GOPATH'
+      when: config_fish.stat.exists
+
+    - name: Append 'PATH' to config.fish
+      lineinfile:
+        dest={{CONFIG_FISH}}
+        line='set -x PATH $GOPATH/bin $PATH'
+        regexp='^set -x PATH \$GOPATH/bin'
+      when: config_fish.stat.exists
+
