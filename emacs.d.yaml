@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+  
+  tasks:
+    - name: Checkout config files from github
+      git:
+        repo: git@github.com:NomadBlacky/.emacs.d.git
+        dest: "{{ HOME_DIR }}/.emacs.d"
+        accept_hostkey: yes
+        key_file: "{{ HOME_DIR }}/.ssh/id_rsa"
