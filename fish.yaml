@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+  
+  tasks:
+    - name: Install fish from apt
+      become: yes
+      apt: name={{item}} state=latest
+      with_items:
+        - fish
+
+    - name: Checkout config files from github
+      git:
+        repo: git@github.com:NomadBlacky/fish-config.git
+        dest: "{{ HOME_DIR }}/.config/fish"
+        accept_hostkey: yes
+        key_file: "{{ HOME_DIR }}/.ssh/id_rsa"
