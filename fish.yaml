@@ -11,6 +11,9 @@
       with_items:
         - fish
 
+    - name: Remove the fish directory
+      file: path="{{ HOME_DIR }}"/.config/fish/ state=absent
+
     - name: Checkout config files from github
       git:
         repo: git@github.com:NomadBlacky/fish-config.git
