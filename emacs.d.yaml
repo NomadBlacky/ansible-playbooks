@@ -5,6 +5,10 @@
     HOME_DIR: "{{lookup('env', 'HOME')}}"
   
   tasks:
+
+    - name: Remove the .emacs.d directory
+      file: path="{{ HOME_DIR }}/.emacs.d" state=absent
+
     - name: Checkout config files from github
       git:
         repo: git@github.com:NomadBlacky/.emacs.d.git
