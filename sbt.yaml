@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+    BASHRC: "{{HOME_DIR}}/.bashrc"
+    CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
+  
+  tasks:
+    - name: Add the repository of sbt
+      become: yes
+      shell: 'echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list'
+
+    - name: Download the key of trusted repository
+      become: yes
+      shell: 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823'
+
+    - name: Install sbt
+      apt:
+        name: sbt
+        state: latest
+        update_cache: yes
+      become: yes
+
+
