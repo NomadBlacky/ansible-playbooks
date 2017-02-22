@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  
+  tasks:
+    - name: Install packages
+      apt: name={{item}} state=latest
+      with_items:
+        - tree
+
+      
