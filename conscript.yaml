@@ -4,7 +4,6 @@
   vars:
     HOME_DIR: "{{lookup('env', 'HOME')}}"
     BASHRC: "{{HOME_DIR}}/.bashrc"
-    CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
   
   tasks:
   
@@ -28,23 +27,15 @@
       when: bashrc.stat.exists
 
     # for fish
-    - name: Get status config.fish
-      stat: path={{CONFIG_FISH}}
-      register: config_fish
-
-    - name: Add 'CONSCRIPT_HOME' to config.fish
-      lineinfile:
-        dest={{CONFIG_FISH}}
-        line='set -x CONSCRIPT_HOME $HOME/.conscript'
-        regexp='^set -x CONSCRIPT_HOME'
-      when: config_fish.stat.exists
-
-    - name: Append 'PATH' to config.fish
-      lineinfile:
-        dest={{CONFIG_FISH}}
-        line='set -x PATH $CONSCRIPT_HOME/bin $PATH'
-        regexp='^set -x PATH \$CONSCRIPT_HOME/bin'
-      when: config_fish.stat.exists
+    - name: Add the 'CONSCRIPT_HOME' universal variable for fish
+      shell: 'set -U CONSCRIPT_HOME $HOME/.conscript/'
+      args:
+        executable: /usr/bin/fish
+      
+    - name: Append to the 'PATH' for fish
+      shell: 'set -U fish_user_paths $CONSCRIPT_HOME/bin fish_user_paths'
+      args:
+        executable: /usr/bin/fish
 
     # Install conscript
     - name: which conscript
