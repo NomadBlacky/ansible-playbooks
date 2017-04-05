@@ -9,7 +9,10 @@
   tasks:
     - name: Add the repository of sbt
       become: yes
-      shell: 'echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list'
+      lineinfile:
+        dest='/etc/apt/sources.list.d/sbt.list'
+        line='deb https://dl.bintray.com/sbt/debian /'
+        regexp='^deb https://dl\.bintray\.com/sbt/debian /'
 
     - name: Download the key of trusted repository
       become: yes
@@ -22,4 +25,10 @@
         update_cache: yes
       become: yes
 
-
+    - name: Add IDEA plugin
+      lineinfile:
+        dest="{{HOME_DIR}}/.sbt/0.13/plugins/build.sbt"
+        line='addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.6.0")'
+        regexp='^addSbtPlugin\("com.github.mpeltonen" % "sbt-idea" %'
+        create=yes
+        
