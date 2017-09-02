@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+    TMUX_CONFIG_FILE: "{{HOME_DIR}}/.tmux.conf"
+  
+  tasks:
+    - name: Install tmux
+      apt:
+        name: tmux
+        state: latest
+      become: yes
+
+    - name: Set prefix key to 'C-z'
+      lineinfile:
+        dest={{TMUX_CONFIG_FILE}}
+        line='set -g prefix C-z'
+        regexp='^set -g prefix C-z'
+        create=yes
+
+    - name: Unbind 'C-b'
+      lineinfile:
+        dest={{TMUX_CONFIG_FILE}}
+        line='unbind C-b'
+        regexp='^unbind C-b'
