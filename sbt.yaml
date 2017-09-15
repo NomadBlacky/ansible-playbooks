@@ -13,6 +13,7 @@
         dest='/etc/apt/sources.list.d/sbt.list'
         line='deb https://dl.bintray.com/sbt/debian /'
         regexp='^deb https://dl\.bintray\.com/sbt/debian /'
+        create=yes
 
     - name: Download the key of trusted repository
       become: yes
