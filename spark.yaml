@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+    SPARK_VERSION: "2.2.0"
+    HADOOP_VERSION: "2.7"
+
+  tasks:
+    - name: Download Apache Spark
+      get_url:
+        url: "http://ftp.tsukuba.wide.ad.jp/software/apache/spark/spark-{{SPARK_VERSION}}/spark-{{SPARK_VERSION}}-bin-hadoop{{HADOOP_VERSION}}.tgz"
+        dest: "/tmp/spark-{{SPARK_VERSION}}-bin-hadoop{{HADOOP_VERSION}}.tgz"
+
+    - name: Unarchive
+      unarchive:
+        src: "/tmp/spark-{{SPARK_VERSION}}-bin-hadoop{{HADOOP_VERSION}}.tgz"
+        dest: /usr/local/
+      become: yes
+
+    - name: Create symbolic link
+      file:
+        src: "/usr/local/spark-{{SPARK_VERSION}}-bin-hadoop{{HADOOP_VERSION}}"
+        dest: /usr/local/spark
+        state: link
+      become: yes
+
+    - name: Set `SPARK_HOME` environment variable
+      shell: "fish -c 'set -U SPARK_HOME /usr/local/spark $fish_user_path'"
+
+    - name: Add Spark directory to `PATH`
+      shell: "fish -c 'set -U fish_user_paths /usr/local/spark/bin $fish_user_paths'"
+
+    - name: Set `WARN` to `log4j.rootCategory` property
+      shell: "cat /usr/local/spark/conf/log4j.properties.template | sed -E 's/^(log4j\\.rootCategory=).+ (.+)/\\1WARN \\2/g\' > /usr/local/spark/conf/log4j.properties"
+      become: yes
