@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+
+  tasks:
+    - name: Download Migu 1M
+      unarchive:
+        src: 'https://ja.osdn.net/frs/redir.php?m=ymu&f=%2Fmix-mplus-ipa%2F63545%2Fmigu-1m-20150712.zip'
+        dest: /tmp
+        remote_src: yes
+        list_files: yes
+      register: result
+
+    - name: Create .fonts directory
+      file:
+        path: "{{HOME_DIR}}/.fonts"
+        state: directory
+
+    - name: Copy .ttf files
+      copy:
+        src: "/tmp/{{result.files[0]}}{{item}}"
+        dest: "{{HOME_DIR}}/.fonts"
+      with_items:
+        - "migu-1m-bold.ttf"
+        - "migu-1m-regular.ttf"
+ 
+    - name: Reload fonts
+      shell: fc-cache -fv
+ 
