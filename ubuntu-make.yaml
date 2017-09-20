@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+  
+  tasks:
+    - name: Add repository of ubuntu-make
+      become: yes
+      apt_repository: repo=ppa:ubuntu-desktop/ubuntu-make
+      
+    - name: Install ubuntu-make from apt
+      become: yes
+      apt:
+        name: ubuntu-make
+        state: latest
+        update_cache: yes
