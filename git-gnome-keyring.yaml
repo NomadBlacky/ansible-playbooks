@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+  
+  tasks:
+    # - name: Clone from GitHub
+    #   git:
+    #     repo: https://github.com/shugo/git-credential-gnomekeyring.git
+    #     update: yes
+    #     dest: /tmp/git-gnome
+
+    - name: Install libgnome-keyring-dev
+      apt: name=libgnome-keyring-dev state=latest
+      become: yes
+    
+    - name: Make it
+      make: chdir=/usr/share/doc/git/contrib/credential/gnome-keyring
+
+    - name: Set `credential.helper` of git
+      shell: "git config --global credential.helper /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring"
