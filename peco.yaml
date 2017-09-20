@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+  
+  tasks:
+    - name: Fetch the latest release version from GitHub
+      uri:
+        url: https://api.github.com/repos/peco/peco/releases/latest
+        body_format: json
+      register: curl_result
+
+    - name: Download the tarball
+      get_url:
+        url: "{{curl_result|json_query(query)}}"
+        dest: /tmp/peco.tar.gz
+      vars:
+        query: "json.assets[?name=='peco_linux_amd64.tar.gz'].browser_download_url | [0]"
+    
+    - name: Unarchive
+      unarchive:
+        src: /tmp/peco.tar.gz
+        dest: /tmp
+
+    - name: Copy to /usr/local/bin
+      become: yes
+      copy:
+        src: /tmp/peco_linux_amd64/peco
+        dest: /usr/local/bin
+        mode: a+x
