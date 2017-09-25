@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+    FORCE_VERSION: "v0.22.77"
+  
+  tasks:
+    - name: Download force-cli
+      get_url:
+        url: "https://s3-us-west-2.amazonaws.com/force-cli/heroku/force/{{FORCE_VERSION}}/linux-amd64/force"
+        dest: /usr/local/bin/force
+        mode: a+x
+      become: yes
