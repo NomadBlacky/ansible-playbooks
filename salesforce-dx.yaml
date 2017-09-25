@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+
+  vars:
+    HOME_DIR: "{{lookup('env', 'HOME')}}"
+  
+  tasks:
+    - name: Fetch the manifest
+      uri:
+        url: https://developer.salesforce.com/media/salesforce-cli/manifest.json
+        body_format: json
+      register: manifest
+
+    - name: Download the tarball
+      get_url:
+        url: "{{manifest|json_query(query)}}"
+        dest: /tmp/sfdx.tar.gz
+        timeout: 30
+      vars:
+        query: 'json.builds."linux-amd64".url'
+    
+    - name: Unarchive
+      unarchive:
+        src: /tmp/sfdx.tar.gz
+        dest: /tmp
+
+    - name: Install
+      shell: "/tmp/sfdx/install"
+      become: yes
