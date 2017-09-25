@@ -1,8 +1,7 @@
 ---
 - hosts: localhost
-  
+
   vars:
-    HOME_DIR: "{{lookup('env', 'HOME')}}"
     BASHRC: "{{HOME_DIR}}/.bashrc"
   
   tasks:

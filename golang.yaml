@@ -2,7 +2,6 @@
 - hosts: localhost
 
   vars:
-    HOME_DIR: "{{lookup('env', 'HOME')}}"
     BASHRC: "{{HOME_DIR}}/.bashrc"
     CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
   

@@ -2,7 +2,6 @@
 - hosts: localhost
 
   vars:
-    HOME_DIR: "{{lookup('env', 'HOME')}}"
     SPARK_VERSION: "2.2.0"
     HADOOP_VERSION: "2.7"
 

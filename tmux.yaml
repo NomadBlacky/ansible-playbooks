@@ -2,7 +2,6 @@
 - hosts: localhost
 
   vars:
-    HOME_DIR: "{{lookup('env', 'HOME')}}"
     TMUX_CONFIG_FILE: "{{HOME_DIR}}/.tmux.conf"
   
   tasks:
