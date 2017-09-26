@@ -25,3 +25,7 @@
     - name: Install
       shell: "/tmp/sfdx/install"
       become: yes
+
+    - name: Update
+      shell: "sfdx update"
+      become: yes
