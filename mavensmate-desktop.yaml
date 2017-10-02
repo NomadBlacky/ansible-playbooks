@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+
+  
+  tasks:
+    - name: Fetch the latest release version from GitHub
+      uri:
+        url: https://api.github.com/repos/joeferraro/MavensMate-Desktop/releases/latest
+        body_format: json
+      register: curl_result
+
+    - name: Download the tarball
+      get_url:
+        url: "{{curl_result|json_query(query)}}"
+        dest: /tmp/mavensmate-desktop.deb
+      vars:
+        # FIXME: Will occur the error if to be released the new version
+        query: "json.assets[?name=='MavensMate-Desktop-0.0.11-beta.7.deb'].browser_download_url | [0]"
+    
+    - name: Install
+      apt:
+        deb: /tmp/mavensmate-desktop.deb
+      become: yes
