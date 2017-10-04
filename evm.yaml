@@ -3,7 +3,6 @@
 
   vars:
     BASHRC: "{{HOME_DIR}}/.bashrc"
-    CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
   
   tasks:
     - name: Install dependency packages
@@ -47,12 +46,5 @@
       when: bashrc.stat.exists
 
     # for fish
-    - stat: path={{CONFIG_FISH}}
-      register: config_fish
-
-    - name: Append 'PATH' to config.fish
-      lineinfile:
-        dest={{CONFIG_FISH}}
-        line='set -x PATH $HOME/.evm/bin $PATH'
-        regexp='^set -x PATH \$HOME/\.evm/bin'
-      when: config_fish.stat.exists
+    - name: Add $HOME/.evm/bin to `fish_user_paths` 
+      shell: "fish -c 'set -U fish_user_paths $HOME/.evm/bin $fish_user_paths'"
