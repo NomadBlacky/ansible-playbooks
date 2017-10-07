@@ -15,6 +15,7 @@
     
     - name: Make it
       make: chdir=/usr/share/doc/git/contrib/credential/gnome-keyring
+      become: yes
 
     - name: Set `credential.helper` of git
       shell: "git config --global credential.helper /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring"
