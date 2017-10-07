@@ -3,6 +3,7 @@
 
   vars:
     asset_name: "hub-linux-amd64"
+    fish_completion_url: "https://raw.githubusercontent.com/github/hub/master/etc/hub.fish_completion"
 
   tasks:
     - name: Fetch the latest release version from GitHub
@@ -33,3 +34,6 @@
     - name: Install
       become: yes
       shell: "/tmp/{{asset_name}}-{{version}}/install"
+
+    - name: Add fish shell completion
+      shell: "curl -s {{fish_completion_url}} > {{HOME_DIR}}/.config/fish/completions/hub.fish"
