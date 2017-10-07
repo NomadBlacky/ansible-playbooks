@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+
+  vars:
+    asset_name: "hub-linux-amd64"
+
+  tasks:
+    - name: Fetch the latest release version from GitHub
+      uri:
+        url: https://api.github.com/repos/github/hub/releases/latest
+        body_format: json
+      register: curl_result
+
+    - set_fact:
+        version: "{{curl_result|json_query('json.tag_name')|regex_replace('^v')}}"
+
+    - set_fact:
+        tarball_url: "{{curl_result|json_query(query)}}"
+      vars:
+        query: "json.assets[?name=='{{asset_name}}-{{version}}.tgz'].browser_download_url | [0]"
+
+    - name: Download the tarball
+      get_url:
+        url: "{{tarball_url}}"
+        dest: /tmp/hub.tgz
+      when: no
+
+    - name: Unarchive
+      unarchive:
+        src: "/tmp/hub.tgz"
+        dest: /tmp
+
+    - name: Install
+      become: yes
+      shell: "/tmp/{{asset_name}}-{{version}}/install"
