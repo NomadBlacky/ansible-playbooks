@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Get apt key
+      become: yes
+      apt_key:
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+
+    - name: Add repository
+      become: yes
+      apt_repository:
+        repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+        state: present
+
+    - name: Install Elasticsearch
+      become: yes
+      apt:
+        update_cache: yes
+        name: "{{item}}"
+        state: latest
+      with_items:
+        - apt-transport-https
+        - elasticsearch
+        - logstash
+        - kibana
