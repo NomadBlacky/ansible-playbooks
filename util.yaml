@@ -10,3 +10,6 @@
         - source-highlight
         - xsel
         - inotify-tools
+        - shutter
+        - chromium-browser
+        - nkf
