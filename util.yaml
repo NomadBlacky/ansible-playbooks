@@ -13,3 +13,4 @@
         - shutter
         - chromium-browser
         - nkf
+        - wmctrl
