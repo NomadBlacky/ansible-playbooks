@@ -24,7 +24,6 @@
       get_url:
         url: "{{tarball_url}}"
         dest: /tmp/hub.tgz
-      when: no
 
     - name: Unarchive
       unarchive:
