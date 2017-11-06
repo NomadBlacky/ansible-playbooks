@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Add the apt key of R-lang
+      become: yes
+      apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+    - name: Add the apt repository of R-lang
+      become: yes
+      apt_repository:
+        repo: deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/
+        state: present
+
+    - name: Install `r-base` from apt
+      become: yes
+      apt:
+        update_cache: yes
+        name: r-base
+        state: latest
