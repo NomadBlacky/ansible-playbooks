@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+
+  vars:
+    RSTUDIO_VERSION: "1.1.383"
+    DEB_PATH: /tmp/rstudio.deb
+  
+  tasks:
+    - name: Download RStudio deb file
+      get_url:
+        url: "https://download1.rstudio.org/rstudio-xenial-{{RSTUDIO_VERSION}}-amd64.deb"
+        dest: "{{DEB_PATH}}"
+
+    - name: Install RStudio
+      become: yes
+      apt:
+        deb: "{{DEB_PATH}}"
