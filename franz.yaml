@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+
+  vars:
+    FRANZ_VERSION: "5.0.0-beta.12"
+    DEB_PATH: /tmp/franz.deb
+  
+  tasks:
+    - name: Download Franz deb file
+      get_url:
+        url: "https://github.com/meetfranz/franz/releases/download/v{{FRANZ_VERSION}}/franz_{{FRANZ_VERSION}}_amd64.deb"
+        dest: "{{DEB_PATH}}"
+
+    - name: Install Franz
+      become: yes
+      apt:
+        deb: "{{DEB_PATH}}"
