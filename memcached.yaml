@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Install `memcached` package from apt
+      become: yes
+      apt:
+        name: memcached
+        state: latest
