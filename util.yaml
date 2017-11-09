@@ -14,3 +14,4 @@
         - chromium-browser
         - nkf
         - wmctrl
+        - sysv-rc-conf
