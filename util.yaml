@@ -14,5 +14,6 @@
         - chromium-browser
         - nkf
         - wmctrl
+        - sysv-rc-conf
         - htop
         - iftop
