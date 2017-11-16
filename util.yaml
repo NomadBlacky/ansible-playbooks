@@ -17,3 +17,4 @@
         - sysv-rc-conf
         - htop
         - iftop
+        - jq
