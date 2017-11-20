@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Get apt key
+      become: yes
+      apt_key:
+        url: https://dl.winehq.org/wine-builds/Release.key
+        state: present
+
+    - name: Add repository
+      become: yes
+      shell: "apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/"
+
+    - name: Install winehq
+      become: yes
+      apt:
+        update_cache: yes
+        name: winehq-stable
+        state: latest
