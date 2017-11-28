@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Install enscript
+      become: yes
+      apt:
+        name: enscript
+        state: latest
+
+    - name: Add Scala highlighting
+      become: yes
+      get_url:
+        url: https://raw.githubusercontent.com/scala/scala-tool-support/master/tool-support/enscript/scala.st
+        dest: /usr/share/enscript/hl/
+
+    - name: Add namerules
+      become: yes
+      # TODO: Fix to awk script
+      shell: "ruby -e 'conf=File.read(\"/usr/share/enscript/hl/enscript.st\"); File.write(\"/usr/share/enscript/hl/enscript.st\", conf.gsub(/namerules[\\s|\\S]{/, \"namerules\\n{\\n  /\\\\.(scala|sbt)$/ scala;\"))'"
+      
