@@ -11,15 +11,16 @@
         state: latest
       become: yes
 
-    - name: Set prefix key to 'C-z'
+    - name: Configure tmux file
       lineinfile:
-        dest={{TMUX_CONFIG_FILE}}
-        line='set -g prefix C-z'
-        regexp='^set -g prefix C-z'
+        dest="{{TMUX_CONFIG_FILE}}"
+        line="{{item.line}}"
+        regexp="{{item.regexp}}"
         create=yes
-
-    - name: Unbind 'C-b'
-      lineinfile:
-        dest={{TMUX_CONFIG_FILE}}
-        line='unbind C-b'
-        regexp='^unbind C-b'
+      with_items:
+        - { line: 'set -g prefix C-z'                               , regexp: 'set\s+-g\s+prefix'                }
+        - { line: 'unbind C-b'                                      , regexp: 'unbind\s+C-b'                     }
+        - { line: 'unbind -t emacs-copy M-w'                        , regexp: 'unbind\s+-t\s+emacs-copy\s+M-w'   }
+        - { line: 'unbind -t emacs-copy C-w'                        , regexp: 'unbind\s+-t\s+emacs-copy\s+C-w'   }
+        - { line: 'bind-key -t emacs-copy M-w copy-pipe "xsel -bi"' , regexp: 'bind-key\s+-t\s+emacs-copy\s+M-w' }
+        - { line: 'bind-key -t emacs-copy C-w copy-pipe "xsel -bi"' , regexp: 'bind-key\s+-t\s+emacs-copy\s+C-w' }
