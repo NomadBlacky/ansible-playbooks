@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Add apt repository of peek
+      become: yes
+      apt_repository:
+        repo: ppa:peek-developers/stable
+
+    - name: Install peek
+      become: yes
+      apt:
+        name: peek
+        state: latest
+        update_cache: yes
