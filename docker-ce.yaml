@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Install dependency packages
+      become: yes
+      apt: name={{ item }} state=latest
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: Add the apt key
+      become: yes
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+
+    - name: Get Ubuntu codename
+      shell: lsb_release -cs
+      register: lsb_release
+
+    - name: Add the repository
+      become: yes
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ lsb_release.stdout }} stable"
+    
+    - name: Install docker-ce
+      become: yes
+      apt:
+        name: docker-ce
+        update_cache: yes
