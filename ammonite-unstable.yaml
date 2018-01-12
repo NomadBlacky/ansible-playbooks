@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Install Ammonite (Unstable)
+      become: yes
+      shell: "{{ item }}"
+      with_items:
+        - "curl -L -o /usr/local/bin/amm-unstable https://git.io/vbhWY"
+        - "chmod +x /usr/local/bin/amm-unstable"
