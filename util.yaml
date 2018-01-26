@@ -20,3 +20,5 @@
         - jq
         - youtube-dl
         - exuberant-ctags
+        - guake
+        - jp2a
