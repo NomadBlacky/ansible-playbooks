@@ -1,25 +1,22 @@
 ---
-- hosts:
-    - ubuntu
-  tasks:
-    - name: Install packages
-      become: yes
-      apt: name={{item}} state=latest
-      with_items:
-        - tree
-        - source-highlight
-        - xsel
-        - inotify-tools
-        - shutter
-        - chromium-browser
-        - nkf
-        - wmctrl
-        - sysv-rc-conf
-        - htop
-        - iftop
-        - jq
-        - youtube-dl
-        - exuberant-ctags
-        - guake
-        - jp2a
-        - w3m
+- name: Install packages
+  become: yes
+  apt: name={{item}} state=latest
+  with_items:
+    - tree
+    - source-highlight
+    - xsel
+    - inotify-tools
+    - shutter
+    - chromium-browser
+    - nkf
+    - wmctrl
+    - sysv-rc-conf
+    - htop
+    - iftop
+    - jq
+    - youtube-dl
+    - exuberant-ctags
+    - guake
+    - jp2a
+    - w3m
