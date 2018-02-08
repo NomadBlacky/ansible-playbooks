@@ -11,10 +11,10 @@
     - name: Download script that install omf
       get_url:
         url: http://get.oh-my.fish
-        dest: "{{HOME_DIR}}/install_omf.fish"
+        dest: "{{ansible_env.HOME}}/install_omf.fish"
 
     - name: Install oh-my-fish
-      shell: "cat {{HOME_DIR}}/install_omf.fish | fish"
+      shell: "cat {{ansible_env.HOME}}/install_omf.fish | fish"
       when: omf_result|failed
     
     - name: Install 'cd' plugin

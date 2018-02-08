@@ -2,7 +2,7 @@
 - hosts: localhost
 
   vars:
-    BASHRC: "{{HOME_DIR}}/.bashrc"
+    BASHRC: "{{ansible_env.HOME}}/.bashrc"
   
   tasks:
     - name: Install dependency packages

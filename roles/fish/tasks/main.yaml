@@ -8,9 +8,9 @@
   apt: name=fish state=latest
 
 - name: Remove the fish directory
-  file: path="{{ HOME_DIR }}"/.config/fish/ state=absent
+  file: path="{{ ansible_env.HOME }}"/.config/fish/ state=absent
 
 - name: Checkout config files from github
   git:
-    dest: "{{ HOME_DIR }}/.config/fish"
     repo: https://github.com/NomadBlacky/fish-config.git
+    dest: "{{ ansible_env.HOME }}/.config/fish"

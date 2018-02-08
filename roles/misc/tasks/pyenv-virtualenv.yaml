@@ -2,14 +2,14 @@
 - hosts: localhost
 
   vars:
-    BASHRC: "{{HOME_DIR}}/.bashrc"
-    CONFIG_FISH: "{{HOME_DIR}}/.config/fish/config.fish"
+    BASHRC: "{{ansible_env.HOME}}/.bashrc"
+    CONFIG_FISH: "{{ansible_env.HOME}}/.config/fish/config.fish"
   
   tasks:
     - name: Git clone 'pyenv-virtualenv'
       git:
         repo=https://github.com/yyuu/pyenv-virtualenv.git
-        dest={{HOME_DIR}}/.pyenv/plugins/pyenv-virtualenv
+        dest={{ansible_env.HOME}}/.pyenv/plugins/pyenv-virtualenv
         version=master
 
     # for bash

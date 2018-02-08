@@ -2,7 +2,7 @@
 - hosts: localhost
 
   vars:
-    TMUX_CONFIG_FILE: "{{HOME_DIR}}/.tmux.conf"
+    TMUX_CONFIG_FILE: "{{ansible_env.HOME}}/.tmux.conf"
   
   tasks:
     - name: Install tmux

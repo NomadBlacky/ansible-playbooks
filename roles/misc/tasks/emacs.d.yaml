@@ -5,11 +5,11 @@
   tasks:
 
     - name: Remove the .emacs.d directory
-      file: path="{{ HOME_DIR }}/.emacs.d" state=absent
+      file: path="{{ ansible_env.HOME }}/.emacs.d" state=absent
 
     - name: Checkout config files from github
       git:
         repo: git@github.com:NomadBlacky/.emacs.d.git
-        dest: "{{ HOME_DIR }}/.emacs.d"
+        dest: "{{ ansible_env.HOME }}/.emacs.d"
         accept_hostkey: yes
-        key_file: "{{ HOME_DIR }}/.ssh/id_rsa"
+        key_file: "{{ ansible_env.HOME }}/.ssh/id_rsa"

@@ -13,13 +13,13 @@
 
     - name: Create .fonts directory
       file:
-        path: "{{HOME_DIR}}/.fonts"
+        path: "{{ansible_env.HOME}}/.fonts"
         state: directory
 
     - name: Copy .ttf files
       copy:
         src: "/tmp/{{result.files[0]}}{{item}}"
-        dest: "{{HOME_DIR}}/.fonts"
+        dest: "{{ansible_env.HOME}}/.fonts"
       with_items:
         - "migu-1m-bold.ttf"
         - "migu-1m-regular.ttf"
