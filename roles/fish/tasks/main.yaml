@@ -12,7 +12,5 @@
 
 - name: Checkout config files from github
   git:
-    repo: git@github.com:NomadBlacky/fish-config.git
     dest: "{{ HOME_DIR }}/.config/fish"
-    accept_hostkey: yes
-    key_file: "{{ HOME_DIR }}/.ssh/id_rsa"
+    repo: https://github.com/NomadBlacky/fish-config.git
