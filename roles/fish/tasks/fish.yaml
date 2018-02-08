@@ -14,3 +14,7 @@
   git:
     repo: https://github.com/NomadBlacky/fish-config.git
     dest: "{{ ansible_env.HOME }}/.config/fish"
+
+- name: Set the default shell to fish
+  become: yes
+  shell: "chsh -s /usr/bin/fish {{ ansible_user }}"
