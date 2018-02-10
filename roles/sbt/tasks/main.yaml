@@ -17,3 +17,11 @@
     name: sbt
     state: latest
     update_cache: yes
+
+- name: Add plugins
+  lineinfile:
+    dest="{{ item.value.dest }}"
+    line="{{ item.value.line }}"
+    regexp="{{ item.value.regexp }}"
+    create=yes
+  with_dict: "{{ plugins }}"

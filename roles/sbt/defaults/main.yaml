@@ -1,0 +1,6 @@
+---
+plugins:
+  coursier:
+    dest: "{{ansible_env.HOME}}/.sbt/1.0/plugins/build.sbt"
+    line: 'addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.0.1")'
+    regexp: '^addSbtPlugin\("io.get-coursier" % "sbt-coursier" %'
