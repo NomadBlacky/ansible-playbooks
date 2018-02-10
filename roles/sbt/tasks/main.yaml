@@ -17,10 +17,3 @@
     name: sbt
     state: latest
     update_cache: yes
-
-- name: Add IDEA plugin
-  lineinfile:
-    dest="{{ansible_env.HOME}}/.sbt/0.13/plugins/build.sbt"
-    line='addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.6.0")'
-    regexp='^addSbtPlugin\("com.github.mpeltonen" % "sbt-idea" %'
-    create=yes
