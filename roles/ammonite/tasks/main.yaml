@@ -1,0 +1,7 @@
+---
+- name: Install Ammonite
+  become: yes
+  shell: "{{ item }}"
+  with_items:
+    - "curl -L -o /usr/local/bin/amm https://git.io/vdNv2"
+    - "chmod +x /usr/local/bin/amm"
