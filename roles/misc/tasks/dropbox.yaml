@@ -1,0 +1,19 @@
+---
+- hosts: ubuntu
+  tasks:
+    - name: Download the deb file
+      get_url:
+        url: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
+        dest: /tmp/dropbox.deb
+
+    - name: Install Dropbox
+      become: yes
+      apt:
+        deb: /tmp/dropbox.deb
+
+    - name: Install Dropbox Daemon
+      become: yes
+      expect:
+        command: /usr/bin/dropbox start -i
+        responses:
+          'Note: python-gpgme is not installed, we will not be able to verify binary signatures. [y/n]': "y"
