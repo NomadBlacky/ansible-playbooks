@@ -1,6 +1,16 @@
 ---
 - hosts: ubuntu
   tasks:
+    - name: Install pip
+      become: yes
+      apt:
+        name: python-pip
+        state: latest
+
+    - name: Install pexpect
+      become: yes
+      shell: pip install pexpect
+
     - name: Download the deb file
       get_url:
         url: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
@@ -16,4 +26,4 @@
       expect:
         command: /usr/bin/dropbox start -i
         responses:
-          'Note: python-gpgme is not installed, we will not be able to verify binary signatures. [y/n]': "y"
+          'Note: python-gpgme is not installed': "y"
