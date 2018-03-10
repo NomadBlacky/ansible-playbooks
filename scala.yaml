@@ -1,6 +1,7 @@
 ---
 - hosts: ubuntu
   roles:
+    - openjdk-8
     - sbt
     - ammonite
     - mill
