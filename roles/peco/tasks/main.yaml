@@ -1,4 +1,14 @@
 ---
+- name: Install pip
+  become: yes
+  apt:
+    name: python-pip
+    state: latest
+
+- name: Install jmespath
+  become: yes
+  shell: pip install jmespath
+
 - name: Fetch the latest release version from GitHub
   uri:
     url: https://api.github.com/repos/peco/peco/releases/latest
