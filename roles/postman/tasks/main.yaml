@@ -1,0 +1,12 @@
+---
+- name: Download and unarchive the tarball
+  become: yes
+  unarchive:
+    src: https://dl.pstmn.io/download/latest/linux64
+    dest: /usr/local/
+    remote_src: yes
+
+- name: Add to applications on Ubuntu
+  copy:
+    src: postman.desktop
+    dest: "{{ ansible_env.HOME }}/.local/share/applications/postman.desktop"

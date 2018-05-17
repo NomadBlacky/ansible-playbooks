@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Postman
+Exec=/usr/local/Postman/Postman
+Comment=The Drive to Develop
+Categories=Development;
+Terminal=false
