@@ -36,3 +36,6 @@
 
     - name: Add fish shell completion
       shell: "curl -s {{fish_completion_url}} > {{ansible_env.HOME}}/.config/fish/completions/hub.fish"
+
+    - name: Set to use https
+      shell: "git config --global hub.protocol https"
