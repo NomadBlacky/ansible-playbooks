@@ -1,7 +1,8 @@
 ---
 - name: Install Ammonite
   become: yes
-  shell: "{{ item }}"
-  with_items:
-    - "curl -L -o /usr/local/bin/amm https://git.io/vdNv2"
-    - "chmod +x /usr/local/bin/amm"
+  get_url:
+    url: "https://github.com/lihaoyi/Ammonite/releases/download/{{ AMMONITE_VERSION }}/{{ SCALA_VERSION }}-{{ AMMONITE_VERSION }}"
+    dest: /usr/local/bin/amm
+    mode: +x
+    force: yes
