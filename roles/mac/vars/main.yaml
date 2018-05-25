@@ -1,0 +1,19 @@
+---
+homebrew_taps:
+  - caskroom/cask
+  - caskroom/versions
+
+homebrew_packages:
+  - ammonite-repl
+  - ansible
+  - cask
+  - fish
+  - git
+  - mycli
+  - sbt
+  - tmux
+
+homebrew_cask_packages:
+  - docker
+  - emacs
+  - intellij-idea

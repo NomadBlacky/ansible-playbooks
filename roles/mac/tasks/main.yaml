@@ -1,0 +1,21 @@
+---
+# Thx http://blog.serverworks.co.jp/tech/2017/05/22/ansible-for-mac/
+- name: Add Homebrew taps
+  homebrew_tap:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ homebrew_taps }}"
+
+- name: Install Homebrew packages
+  homebrew:
+    name: "{{ item }}"
+    state: latest
+    update_homebrew: yes
+  with_items: "{{ homebrew_packages }}"
+
+- name: Install Homebrew CaskRoom packages
+  homebrew_cask:
+    name: "{{ item }}"
+    state: latest
+    install_options: 'appdir=/Applications'
+  with_items: "{{ homebrew_cask_packages }}"
