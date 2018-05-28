@@ -1,19 +1,35 @@
 ---
 homebrew_taps:
-  - caskroom/cask
-  - caskroom/versions
-
-homebrew_packages:
-  - ammonite-repl
-  - ansible
-  - cask
-  - fish
-  - git
-  - mycli
-  - sbt
-  - tmux
+  - homebrew/cask
+  - homebrew/cask-versions
 
 homebrew_cask_packages:
   - docker
   - emacs
   - intellij-idea
+  - google-chrome
+  - google-japanese-ime
+  - vivaldi
+  - shiftit
+  - postman
+  - java8
+  - aws-vault
+  - dropbox
+  - slack
+  - font-migu-1m
+  - franz
+
+homebrew_packages:
+  - ammonite-repl # Java1.8+ is required
+  - ansible
+  - cask
+  - fish
+  - git
+  - mill
+  - mycli
+  - sbt
+  - tmux
+  - hub
+  - tree
+  - awscli
+  - peco
