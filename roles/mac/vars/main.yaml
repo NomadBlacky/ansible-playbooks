@@ -18,6 +18,7 @@ homebrew_cask_packages:
   - slack
   - font-migu-1m
   - franz
+  - qblocker
 
 homebrew_packages:
   - ammonite-repl # Java1.8+ is required
